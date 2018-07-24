@@ -139,18 +139,22 @@ class Controller:
 
     def selectRed(self):
         self.red.sound.play()
+        self.red.selected = True
         self.window.blit(self.highlighter, self.red.coords)
 
     def selectGreen(self):
         self.green.sound.play()
+        self.green.selected = True
         self.window.blit(self.highlighter, self.green.coords)
 
     def selectYellow(self):
         self.yellow.sound.play()
+        self.yellow.selected = True
         self.window.blit(self.highlighter, self.yellow.coords)
 
     def selectBlue(self):
         self.blue.sound.play()
+        self.blue.selected = True
         self.window.blit(self.highlighter, self.blue.coords)
 
     def update(self):
@@ -173,12 +177,13 @@ class Controller:
             elif self.selection_phase:
                 self.window.blit(self.debug_font.render("Current Game Phase: Selection Phase", True, (255,255,255)), (5,124))
 
-            # Displays the array of random integers that determine the color pattern
+            # Displays the array of random integers that determine the color pattern.
             try:
                 self.window.blit(self.debug_font.render("Randomly Generated List: " + str(self.remember_this), True, (255,255,255)), (5,136))
             except:
                 self.window.blit(self.debug_font.render("Randomly Generated List: ", True, (255,255,255)), (5,136))
 
+            # Displays total in game time in seconds.
             self.window.blit(self.debug_font.render("In Game Time (Seconds): " + str(self.gametime), True, (255,255,255)), (5,148))
 
         self.clock.tick(60)
