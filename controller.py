@@ -71,8 +71,10 @@ class Controller:
                         self.DEBUG = False
                         print("DEBUG mode de-activated")
 
-            self.window.fill((40, 40, 40))
-            self.drawSquares()
+            self.drawBackground()
+
+            if self.counter == 0:
+                self.resetColorSelection()
 
             if self.main_menu:
                 self.window.blit(self.title.render("Let's Play Simon!", True, (255,255,255)), (28,0))
@@ -89,6 +91,7 @@ class Controller:
 
                 if self.memory_phase_2 and self.wait(1):
                     if self.beep_counter <= self.score:
+                        #self.resetColorSelection()
                         self.rememberThis()
                         self.beep_counter += 1
                     else:
@@ -110,6 +113,22 @@ class Controller:
 # # # # # # # # Below are all of the methods for the controller # # # # # # # #
 ###############################################################################
 
+    def drawBackground(self):
+        self.window.fill((40, 40, 40))
+        self.drawSquares()
+
+        if self.red.selected == True:
+            self.window.blit(self.highlighter, self.red.coords)
+
+        elif self.green.selected == True:
+            self.window.blit(self.highlighter, self.green.coords)
+
+        elif self.yellow.selected == True:
+            self.window.blit(self.highlighter, self.yellow.coords)
+
+        elif self.blue.selected == True:
+            self.window.blit(self.highlighter, self.blue.coords)
+
     def drawSquares(self):
         self.window.blit(self.red.image, self.red.coords)
         self.window.blit(self.green.image, self.green.coords)
@@ -117,7 +136,13 @@ class Controller:
         self.window.blit(self.blue.image, self.blue.coords)
 
     def generateLevel(self):
-        self.remember_this.append(random.randrange(4))
+        random_variable = random.randrange(4)
+        try:
+            while random_variable == self.remember_this[self.score - 1]: #or random_variable == self.remember_this[self.score - 2]:
+                random_variable = random.randrange(4)
+            self.remember_this.append(random.randrange(4))
+        except:
+            self.remember_this.append(random.randrange(4))
 
     def playerInput(self):
         for i in range(self.score + 1):
@@ -137,25 +162,31 @@ class Controller:
         elif i == 3:
             self.selectBlue()
 
+    def resetColorSelection(self):
+        self.red.selected = False
+        self.green.selected = False
+        self.yellow.selected = False
+        self.blue.selected = False
+
     def selectRed(self):
         self.red.sound.play()
         self.red.selected = True
-        self.window.blit(self.highlighter, self.red.coords)
+        #self.window.blit(self.highlighter, self.red.coords)
 
     def selectGreen(self):
         self.green.sound.play()
         self.green.selected = True
-        self.window.blit(self.highlighter, self.green.coords)
+        #self.window.blit(self.highlighter, self.green.coords)
 
     def selectYellow(self):
         self.yellow.sound.play()
         self.yellow.selected = True
-        self.window.blit(self.highlighter, self.yellow.coords)
+        #self.window.blit(self.highlighter, self.yellow.coords)
 
     def selectBlue(self):
         self.blue.sound.play()
         self.blue.selected = True
-        self.window.blit(self.highlighter, self.blue.coords)
+        #self.window.blit(self.highlighter, self.blue.coords)
 
     def update(self):
 
@@ -194,6 +225,7 @@ class Controller:
 
         if self.time_stamp == 0:
             self.time_stamp = self.gametime
+
         if self.gametime == self.time_stamp + seconds:
             self.time_stamp = 0
             return True
