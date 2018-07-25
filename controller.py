@@ -140,9 +140,9 @@ class Controller:
         try:
             while random_variable == self.remember_this[self.score - 1]: #or random_variable == self.remember_this[self.score - 2]:
                 random_variable = random.randrange(4)
-            self.remember_this.append(random.randrange(4))
+            self.remember_this.append(random_variable)
         except:
-            self.remember_this.append(random.randrange(4))
+            self.remember_this.append(random_variable)
 
     def playerInput(self):
         for i in range(self.score + 1):
