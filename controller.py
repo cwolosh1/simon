@@ -2,6 +2,8 @@ import pygame
 import random
 import tile
 
+DEBUG = True
+
 class Controller:
     def __init__(self):
         # Initializes Pygame, the sound mixer, and sets the window caption.
@@ -10,7 +12,7 @@ class Controller:
         pygame.display.set_caption("Simon")
 
         # Creates a DEBUG variable
-        self.DEBUG = True
+        self.DEBUG = DEBUG
 
         # Instantiates objects and variables used for backend counting.
         self.clock = pygame.time.Clock()
